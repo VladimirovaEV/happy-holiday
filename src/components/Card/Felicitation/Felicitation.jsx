@@ -1,17 +1,15 @@
 import style from "./Felicitation.module.css";
+import { useContext } from "react";
+import { textContext } from "../../../context/textContext";
 
-const Felicitation = () => (
+const Felicitation = () => {
+  const { text } = useContext(textContext);
+
+  return (
     <p className={style.felicitation}>
-              Поздравляю с днем рожденья!
-              Пусть будет жизнь полна веселья,
-              Не будет грусти и хлопот,
-              А только счастье круглый год!
-
-              Желаю творческих успехов,
-              Прекрасных дней, улыбок, смеха.
-              Любви, душевного тепла,
-              Как сказка, чтобы жизнь была!
+              {text}
             </p>
-);
+  )
+};
 
 export default Felicitation;
