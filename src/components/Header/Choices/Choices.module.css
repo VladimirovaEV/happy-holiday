@@ -35,7 +35,9 @@
 .item:hover {
     color: #2ff70b;
 }
-
+.linkActive {
+    color: #6b6e6b;
+}
 @media (max-width: 1024px) {
     .button {
         width: 220px;

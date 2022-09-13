@@ -1,19 +1,31 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import style from "./Choices.module.css";
-import { holidaysContext } from "../../../context/holidaysContext";
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchHolidays, setHoliday } from "../../../store/holidaysSlice";
+import { fetchText } from '../../../store/textSlice.js';
+import { fetchImg } from '../../../store/imgSlice.js';
+import { NavLink } from 'react-router-dom';
 
 const Choices = () => {
     const [isOpenChoices, setIsOpenChoices] = useState(false);
-    const {holidays, holiday, changeHoliday} = useContext(holidaysContext);
+    const { holiday, holidays, loading } = useSelector(state => state.holidays);
+    const dispatch = useDispatch();
 
     const toggleChoices = () => {
+        if (loading !== 'success') return;
         setIsOpenChoices(!isOpenChoices);
     };
+
+    useEffect(() => {
+        dispatch(fetchHolidays());
+    }, [dispatch])
 
     return (
         <div className={style.wrapper}>
             <button className={style.button} onClick={toggleChoices}>
-            {holidays[holiday] || 'Выбрать праздник'}
+            {loading !== 'success' ?
+            'Загрузка...' :
+                holidays[holiday] || 'Выбрать праздник'}
             </button>
             {isOpenChoices && (
                     <ul className={style.list}>
@@ -22,11 +34,16 @@ const Choices = () => {
                         className={style.item}
                         key={item[0]}
                         onClick={() => {
-                            changeHoliday(item[0]);
+                            dispatch(setHoliday(item[0]));
+                            dispatch(fetchText(item[0]));
+                            dispatch(fetchImg(item[0]));
                             toggleChoices();
                         }}
                     >
-                        {item[1]}
+                        <NavLink
+                            to={`card/${item[0]}`}
+                            className={({isActive}) => (isActive ? style.linkActive : '')}
+                            >{item[1]}</NavLink>
                     </li>
                 ))}
             </ul>
