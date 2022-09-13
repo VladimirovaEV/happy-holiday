@@ -1,17 +1,17 @@
 import style from "./Felicitation.module.css";
+import { useSelector } from 'react-redux';
 
-const Felicitation = () => (
+const Felicitation = () => {
+  const { text, loading } = useSelector(state => state.text);
+  return (
     <p className={style.felicitation}>
-              Поздравляю с днем рожденья!
-              Пусть будет жизнь полна веселья,
-              Не будет грусти и хлопот,
-              А только счастье круглый год!
-
-              Желаю творческих успехов,
-              Прекрасных дней, улыбок, смеха.
-              Любви, душевного тепла,
-              Как сказка, чтобы жизнь была!
+    {loading === 'loading'
+    ? 'Загрузка...'
+    : text === ''
+    ? 'Выберите повод для поздравления!'
+    : text}
             </p>
-);
+  )
+};
 
 export default Felicitation;

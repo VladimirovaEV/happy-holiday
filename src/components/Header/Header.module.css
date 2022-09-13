@@ -24,6 +24,9 @@
     background-color: #00c78b;
     color: #ffffff;
 }
+.button:disabled {
+    background-color: #afbeba;
+}
 
 @media (max-width: 1024px) {
     .wrapper {
